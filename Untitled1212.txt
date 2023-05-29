@@ -1,0 +1,293 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder,StandardScaler
+from sklearn.linear_model import LinearRegression,Lasso
+from sklearn.metrics import mean_squared_error,mean_absolute_error
+from sklearn.ensemble import RandomForestRegressor 
+import warnings
+warnings.filterwarnings("ignore")
+from sklearn.model_selection import train_test_split
+
+
+# In[4]:
+
+
+df=pd.read_csv('Clean_Dataset.csv')
+df.head()
+
+
+# In[5]:
+
+
+x = df.iloc[:, :-1]
+y = df.iloc[:, -1]
+
+
+# In[6]:
+
+
+x_train, x_test, y_train, y_test = train_test_split( x, y, test_size=0.05, random_state=0)
+x = df.iloc[:, :-1]
+y = df.iloc[:, -1]
+
+
+# In[7]:
+
+
+x
+
+
+# In[8]:
+
+
+y
+
+
+# In[9]:
+
+
+dataTrain=pd.read_csv('Clean_Dataset.csv')
+dataTrain.head()
+
+
+# In[10]:
+
+
+dataTrain.shape
+
+
+# In[11]:
+
+
+dataTest=pd.read_csv('Clean_Dataset.csv')
+dataTest.head()
+
+
+# In[12]:
+
+
+dataTest.shape
+
+
+# In[13]:
+
+
+dataTrain.isnull().sum()
+
+
+# In[14]:
+
+
+dataTest.isnull().sum()
+
+
+# In[15]:
+
+
+dataTrain=dataTrain.dropna()
+dataTest=dataTest.dropna()
+
+
+# In[16]:
+
+
+dataTrain.isnull().sum()
+
+
+# In[17]:
+
+
+dataTrain.shape
+
+
+# In[18]:
+
+
+dataTest.isnull().sum()
+
+
+# In[19]:
+
+
+dataTest.isnull().sum()
+
+
+# In[20]:
+
+
+dataTest.shape
+
+
+# In[21]:
+
+
+dataTrain.dtypes
+
+
+# In[22]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="duration", y="price", data=df)
+
+
+# In[23]:
+
+
+from scipy import stats
+pearson_coef, p_value = stats.pearsonr(df['duration'], df['price'])
+print("The Pearson Correlation Coefficient is", pearson_coef, " with a P-value of P =", p_value)
+
+
+# In[24]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="days_left", y="price", data=df)
+
+
+# In[25]:
+
+
+pearson_coef, p_value = stats.pearsonr(df['days_left'], df['price'])
+print("The Pearson Correation Coefficient is", pearson_coef, " with a P-value of P =", p_value)
+
+
+# In[27]:
+
+
+sns.boxplot(x="destination_city", y="price", data=df)
+
+
+# In[28]:
+
+
+plt.figure(figsize=(10,6))
+sns.boxplot(x="arrival_time", y="price", data=df)
+
+
+# In[29]:
+
+
+plt.figure(figsize=(10,6))
+sns.boxplot(x="departure_time", y="price", data=dataTrain)
+
+
+# In[30]:
+
+
+sns.boxplot(x="source_city", y="price", data=df)
+
+
+# In[31]:
+
+
+sns.boxplot(x="airline", y="price", data=df)
+
+
+# In[34]:
+
+
+dataTrain.drop(['duration', 'days_left', 'arrival_time','class'], axis = 1, inplace = True)
+
+
+# In[35]:
+
+
+dataTrain.drop.shape
+
+
+# In[39]:
+
+
+dataTest.drop(['duration', 'days_left', 'arrival_time','class'], axis = 1, inplace = True)
+
+
+# In[40]:
+
+
+dataTest.shape
+
+
+# In[37]:
+
+
+df.describe()
+
+
+# In[38]:
+
+
+df.describe(include=['object'])
+
+
+# In[46]:
+
+
+labelencoder = LabelEncoder()
+df.airline = labelencoder.fit_transform(df.airline)
+df.source_city = labelencoder.fit_transform(df.source_city)
+df.stops = labelencoder.fit_transform(df.stops)
+df.destination_city = labelencoder.fit_transform(df.destination_city)
+
+
+# In[47]:
+
+
+dataTrain.head(10)
+
+
+# In[48]:
+
+
+dataTest.head(10)
+
+
+# In[49]:
+
+
+import scipy.stats as stats
+dataTrain = stats.zscore(dataTrain)
+dataTest = stats.zscore(dataTest)
+
+
+# In[ ]:
+
+
+dataTrain
+
+
+# In[ ]:
+
+
+dataTest
+
+
+# In[ ]:
+
+
+x_train=dataTrain.iloc[:,0:11]
+y_train=dataTrain.iloc[:,12]
+x_test=dataTest.iloc[:,0:11]
+y_test=dataTest.iloc[:,12]
+
+
+# In[ ]:
+
+
+x_train
+
+
+# In[ ]:
+
+
+
+
